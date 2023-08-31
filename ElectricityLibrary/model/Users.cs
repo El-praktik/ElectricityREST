@@ -13,5 +13,24 @@ namespace ElectricityLibrary.model
         public string? Password { get; set; }
         public int ApartmentId { get; set; }
         public int CommunityId { get; set; }
+
+        public Users()
+        {
+
+        }
+
+        public Users(int userId, string? userName, string? password, int apartmentId, int communityId)
+        {
+            UserId = userId;
+            UserName = userName;
+            Password = password;
+            ApartmentId = apartmentId;
+            CommunityId = communityId;
+        }
+
+        public override string ToString()
+        {
+            return $"{nameof(UserId)}: {UserId}, {nameof(UserName)}: {UserName}, {nameof(Password)}: {Password}, {nameof(ApartmentId)}: {ApartmentId}, {nameof(CommunityId)}: {CommunityId}";
+        }
     }
 }
