@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ElectricityLibrary.model
 {
-    public class Users
+    public class Measure
     {
-        public int UserId { get; set; }
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
-        public int ApartmentId { get; set; }
+        public int MeasureId { get; set; }
+        public double PowerUsed { get; set; }
+        public double PowerGenerated { get; set; }
         public int CommunityId { get; set; }
+        public int ApartmentId { get; set; }
     }
 }
