@@ -7,13 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy =>
-        policy.RequireClaim("role", "admin"));
-    options.AddPolicy("UserOnly", policy =>
-        policy.RequireClaim("role", "user"));
-});
+builder.Services.AddAuthorization();
 
 
 
