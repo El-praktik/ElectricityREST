@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +10,18 @@ namespace ElectricityLibrary.model
 {
     public class Users
     {
-        public int UserId { get; set; }
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? UserId { get; set; }
+        [Required]
+        public string UserName { get; set; }
+        [Required]
+        public string Password { get; set; }
+        [Required]
+        // [ForeignKey("ApartUsage")]
         public int ApartmentId { get; set; }
+        [Required]
+        // [ForeignKey("CommunityUsage")]
         public int CommunityId { get; set; }
 
         public Users()
@@ -19,7 +29,7 @@ namespace ElectricityLibrary.model
 
         }
 
-        public Users(int userId, string? userName, string? password, int apartmentId, int communityId)
+        public Users(int? userId, string userName, string password, int apartmentId, int communityId)
         {
             UserId = userId;
             UserName = userName;

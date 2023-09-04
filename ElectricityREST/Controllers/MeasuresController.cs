@@ -10,13 +10,17 @@ namespace ElectricityREST.Controllers
     [ApiController]
     public class MeasuresController : ControllerBase
     {
-        private static IDataManager dtmgr = new DataManager();
+        private DataManager _dataManager;
+        public MeasuresController(DataManager data)
+        {
+            _dataManager = data;
+        }
 
         // GET api/<MeasuresController>/
         [HttpGet]
         public IActionResult GetAllMeasures()
         {
-            List<Measure> measureList = dtmgr.GetAllMeasures();
+            List<Measure> measureList = _dataManager.GetAllMeasures();
             return Ok(measureList);
         }
 
@@ -26,7 +30,7 @@ namespace ElectricityREST.Controllers
         {
             try
             {
-                Measure measure = dtmgr.GetMeasureById(measureId);
+                Measure measure = _dataManager.GetMeasureById(measureId);
                 return Ok(measure);
             }
             catch (Exception)

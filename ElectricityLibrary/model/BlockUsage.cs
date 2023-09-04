@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +10,22 @@ namespace ElectricityLibrary.model
 {
     public class BlockUsage
     {
-        public int BlockId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? BlockId { get; set; }
+        [Required]
         public DateTime FromTime { get; set; }
+        [Required]
         public DateTime ToTime { get; set; }
+        [Required]
         public double PowerUsed { get; set; }
+        [Required]
         public double PowerGenerated { get; set; }
+        [Required]
+       // [ForeignKey("CommunityUsage")]
         public int CommunityId { get; set; }
+        [Required]
+       // [ForeignKey("ApartUsage")]
         public int ApartmentId { get; set; }
 
         public BlockUsage()
@@ -21,7 +33,7 @@ namespace ElectricityLibrary.model
             
         }
 
-        public BlockUsage(int blockId, DateTime fromTime, DateTime toTime, double powerUsed, double powerGenerated, int communityId, int apartmentId)
+        public BlockUsage(int? blockId, DateTime fromTime, DateTime toTime, double powerUsed, double powerGenerated, int communityId, int apartmentId)
         {
             BlockId = blockId;
             FromTime = fromTime;

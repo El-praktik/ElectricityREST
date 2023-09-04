@@ -7,14 +7,15 @@ namespace ElectricityREST.Managers
 {
     public class DataManager : IDataManager
     {
-        private const string connectionString = @"data source=JINDOOHEX;initial catalog=master;trusted_connection=true";
+        //private const string connectionString = @"data source=JINDOOHEX;initial catalog=master;trusted_connection=true";
 
         //private static List<Measure> _measures = new List<Measure>();
         public DbService<Measure> measureService { get; set; }
 
-        public DataManager()
-        {
 
+        public DataManager(DbService<Measure> measures)
+        {
+            measures = measureService;
         }
 
         public List<Measure> GetAllMeasures()
