@@ -11,11 +11,16 @@ namespace ElectricityREST.Managers
 
         //private static List<Measure> _measures = new List<Measure>();
         public DbService<Measure> measureService { get; set; }
+        public DbService<BlockUsage> blockService { get; set; }
+        public DbService<ApartUsage> apartService { get; set; }
+        public DbService<CommunityUsage> communityService { get; set; }
 
-
-        public DataManager(DbService<Measure> measures)
+        public DataManager(DbService<Measure> measures, DbService<BlockUsage> blockService, DbService<ApartUsage> apartService, DbService<CommunityUsage> communityService)
         {
             measures = measureService;
+            this.blockService = blockService;
+            this.apartService = apartService;
+            this.communityService = communityService;
         }
 
         public List<Measure> GetAllMeasures()
@@ -28,7 +33,7 @@ namespace ElectricityREST.Managers
             //{
             //    SqlCommand command = new SqlCommand(sql, connection);
             //    connection.Open();
-            //    SqlDataReader reader = command.ExecuteReader();
+            //    SqlDataReader reader = command.ExecuteReader();                           -> This is all useless
             //    while (reader.Read())
             //    {
             //        Measure theMeasure = new Measure();
@@ -45,7 +50,7 @@ namespace ElectricityREST.Managers
 
         public Measure GetMeasureById(int measureId)
         {
-            throw new NotImplementedException();
+            return measureService.GetObjectByIdAsync(measureId).Result;
         }
 
         public List<ApartUsage> GetApartmentsInBlock(int blockId)
@@ -55,12 +60,12 @@ namespace ElectricityREST.Managers
         
         public BlockUsage GetBlockUsageById(int blockId)
         {
-            throw new NotImplementedException();
+            return blockService.GetObjectByIdAsync(blockId).Result;
         }
 
         public CommunityUsage GetCommunityUsageById(int communityId)
         {
-            throw new NotImplementedException();
+            return communityService.GetObjectByIdAsync(communityId).Result;
         }
     }
 }

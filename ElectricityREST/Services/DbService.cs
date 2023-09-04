@@ -1,6 +1,7 @@
 ﻿using ElectricityLibrary.model;
 using ElectricityREST.InterFaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace ElectricityREST.Services
 {
@@ -38,6 +39,13 @@ namespace ElectricityREST.Services
             using (var context = new ELDBContext())
             {
                 return await context.Set<T>().FindAsync(id);
+            }
+        }
+        public async Task<IEnumerable<T>> GetListOfObjectsByIdAsync(int id)
+        {
+            using(var context = new ELDBContext())
+            {
+                return await context.Set<T>().OrderByDescending(t => t.id)
             }
         }
     }
