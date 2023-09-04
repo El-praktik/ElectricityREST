@@ -41,12 +41,6 @@ namespace ElectricityREST.Services
                 return await context.Set<T>().FindAsync(id);
             }
         }
-        public async Task<IEnumerable<T>> GetListOfObjectsByIdAsync(int id)
-        {
-            using(var context = new ELDBContext())
-            {
-                return await context.Set<T>().OrderByDescending(t => t.id)
-            }
-        }
+       
     }
 }

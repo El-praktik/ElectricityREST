@@ -7,7 +7,7 @@ namespace ElectricityREST.Managers
 {
     public class DataManager : IDataManager
     {
-        //private const string connectionString = @"data source=JINDOOHEX;initial catalog=master;trusted_connection=true";
+        private const string connectionString = @"data source=JINDOOHEX;initial catalog=master;trusted_connection=true";
 
         //private static List<Measure> _measures = new List<Measure>();
         public DbService<Measure> measureService { get; set; }
@@ -53,9 +53,23 @@ namespace ElectricityREST.Managers
             return measureService.GetObjectByIdAsync(measureId).Result;
         }
 
-        public List<ApartUsage> GetApartmentsInBlock(int blockId)
+        public List<BlockUsage> GetApartmentsInBlock(int blockId)
         {
-            throw new NotImplementedException();
+            List<BlockUsage> blocks = new List<BlockUsage>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand comm = new SqlCommand($"Select BID, AID from BlockUsage where {blockId} = BID ORDER BY BID", conn);
+                SqlDataReader reader = comm.ExecuteReader();
+                while(reader.Read())
+                {
+                    string BID = reader["BID"].ToString();
+                    string AID = reader["AID"].ToString();
+                    blocks.Add(new BlockUsage() { BlockId=BID , })
+
+                }
+            }
+                throw new NotImplementedException();
         }
         
         public BlockUsage GetBlockUsageById(int blockId)
