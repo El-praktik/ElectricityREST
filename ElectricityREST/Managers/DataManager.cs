@@ -1,5 +1,6 @@
 ﻿using ElectricityLibrary.model;
-using ElectricityREST.Services;
+using ElectricityREST.InterFaces;
+//using ElectricityREST.Services;
 using System.Data.SqlClient;
 using System.Net;
 
@@ -7,25 +8,25 @@ namespace ElectricityREST.Managers
 {
     public class DataManager : IDataManager
     {
-        private const string connectionString = @"data source=JINDOOHEX;initial catalog=master;trusted_connection=true";
+        //private const string connectionString = @"data source=JINDOOHEX;initial catalog=master;trusted_connection=true";
 
         //private static List<Measure> _measures = new List<Measure>();
-        public DbService<Measure> measureService { get; set; }
-        public DbService<BlockUsage> blockService { get; set; }
-        public DbService<ApartUsage> apartService { get; set; }
-        public DbService<CommunityUsage> communityService { get; set; }
+        //public DbService<Measure> measureService { get; set; }
+        //public DbService<BlockUsage> blockService { get; set; }
+        //public DbService<ApartUsage> apartService { get; set; }
+        //public DbService<CommunityUsage> communityService { get; set; }
+        private ELDBContext _context;
 
-        public DataManager(DbService<Measure> measures, DbService<BlockUsage> blockService, DbService<ApartUsage> apartService, DbService<CommunityUsage> communityService)
+        public DataManager(ELDBContext context)
         {
-            measures = measureService;
-            this.blockService = blockService;
-            this.apartService = apartService;
-            this.communityService = communityService;
+            _context = context;
         }
 
-        public List<Measure> GetAllMeasures()
+        public IEnumerable<Measure> GetAllMeasures()
         {
-            return measureService.GetAllAsync().Result.ToList();
+            IEnumerable<Measure> measures = from Measure in _context.Measure
+                                            select Measure;
+            return measures;
             //List<Measure> measureList = new List<Measure>();
             //string sql = "select * from dbo.Measure";
 
@@ -50,36 +51,50 @@ namespace ElectricityREST.Managers
 
         public Measure GetMeasureById(int measureId)
         {
-            return measureService.GetObjectByIdAsync(measureId).Result;
+            return _context.Measure.FirstOrDefault(measure => measure.MID == measureId);
         }
 
-        public List<BlockUsage> GetApartmentsInBlock(int blockId)
+        public IEnumerable<BlockUsage> GetApartmentsInBlock(int blockId,int ApartID)
         {
-            List<BlockUsage> blocks = new List<BlockUsage>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand comm = new SqlCommand($"Select BID, AID from BlockUsage where {blockId} = BID ORDER BY BID", conn);
-                SqlDataReader reader = comm.ExecuteReader();
-                while(reader.Read())
-                {
-                    string BID = reader["BID"].ToString();
-                    string AID = reader["AID"].ToString();
-                    blocks.Add(new BlockUsage() { BlockId=BID , })
+            IEnumerable<BlockUsage> blocks = from blockUsage in _context.BlockUsages
+                                             where(blockUsage.BlockId == blockId && blockUsage.ApartmentId == ApartID)
+                                             select blockUsage;
+            return blocks;
 
-                }
-            }
-                throw new NotImplementedException();
+            //List<BlockUsage> blocks = new List<BlockUsage>();
+            //using (SqlConnection conn = new SqlConnection(connectionString))
+            //{
+            //    conn.Open();
+            //    SqlCommand comm = new SqlCommand($"Select BID, AID from BlockUsage where {blockId} = BID ORDER BY BID", conn);
+            //    SqlDataReader reader = comm.ExecuteReader();
+            //    while(reader.Read())
+            //    {
+                   
+            //        int BID = Convert.ToInt32(reader["BID"]);
+
+            //        int AID =Convert.ToInt32(reader["AID"]);
+            //        blocks.Add(new BlockUsage() { BlockId = BID, ApartmentId = AID });
+
+            //    }
+            //}
+            //    return blocks;
         }
         
-        public BlockUsage GetBlockUsageById(int blockId)
+        public IEnumerable<BlockUsage> GetBlockUsageById(int blockId)
         {
-            return blockService.GetObjectByIdAsync(blockId).Result;
+            IEnumerable<BlockUsage> blocks = from blockUsage in _context.BlockUsages
+                                             where (blockUsage.BlockId == blockId)
+                                             select blockUsage;
+            return blocks;
+                                 
         }
 
-        public CommunityUsage GetCommunityUsageById(int communityId)
+        public IEnumerable<CommunityUsage> GetCommunityUsageById(int communityId)
         {
-            return communityService.GetObjectByIdAsync(communityId).Result;
+            IEnumerable<CommunityUsage> community = from communityUsage in _context.CommunityUsages
+                                                    where(communityUsage.CommunityId == communityId)
+                                                    select communityUsage;
+            return community;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ElectricityLibrary.model;
+using ElectricityREST.InterFaces;
 using ElectricityREST.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +11,29 @@ namespace ElectricityREST.Controllers
     [ApiController]
     public class MeasuresController : ControllerBase
     {
-        private DataManager _dataManager;
-        public MeasuresController(DataManager data)
+        private IDataManager _dataManager;
+        public MeasuresController(ELDBContext _context)
         {
-            _dataManager = data;
+            _dataManager = new DataManager(_context);
         }
 
         // GET api/<MeasuresController>/
         [HttpGet]
-        public IActionResult GetAllMeasures()
+        public ActionResult<IEnumerable<Measure>> GetAllMeasures()
         {
-            List<Measure> measureList = _dataManager.GetAllMeasures();
-            return Ok(measureList);
+            IEnumerable<Measure> measures = _dataManager.GetAllMeasures();
+            if(measures == null) 
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
         }
 
         // GET api/<MeasuresController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetMeasureById(int measureId)
         {
             try
@@ -39,5 +47,19 @@ namespace ElectricityREST.Controllers
                 return NotFound();
             }
         }
+        // GET api/<MeasuresController>/5
+        //[HttpGet("{id:int}")]
+        //public IActionResult GetApartmentsInBlock(int blockId)
+        //{
+        //    try
+        //    {
+        //        List<BlockUsage> _blocks = _dataManager.GetApartmentsInBlock(blockId);
+        //        return Ok(_blocks);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
     }
 }
