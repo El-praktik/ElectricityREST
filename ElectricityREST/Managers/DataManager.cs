@@ -7,6 +7,10 @@ namespace ElectricityREST.Managers
 {
     public class DataManager : IDataManager
     {
+
+
+
+
         public DbService<Measure> measureService { get; set; }
 
 
