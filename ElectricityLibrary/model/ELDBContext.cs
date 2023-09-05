@@ -28,7 +28,7 @@ namespace ElectricityLibrary.model
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"data source=DESKTOP-GQ0A8L0;initial catalog=ElPraktik;trusted_connection=true");
+            optionsBuilder.UseSqlServer(@"data source=JINDOOHEX;initial catalog=ElPraktik;trusted_connection=true");
         }
         //protected override void OnModelCreating(ModelBuilder DbBuilder)
         //{
