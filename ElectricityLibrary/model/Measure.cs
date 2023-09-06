@@ -12,16 +12,16 @@ namespace ElectricityLibrary.model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? MeasureId { get; set; }
+        public int? MID { get; set; }
         [Required]
         public double PowerUsed { get; set; }
         [Required]
         public double PowerGenerated { get; set; }
         
        // [ForeignKey("CommunityUsage")] add this later
-        public int CommunityId { get; set; }
+        public int CID { get; set; }
         //[ForeignKey("ApartUsage")] add this later
-        public int ApartmentId { get; set; }
+        public int AID { get; set; }
 
         public Measure()
         {
@@ -30,16 +30,16 @@ namespace ElectricityLibrary.model
 
         public Measure(int? measureId, double powerUsed, double powerGenerated, int communityId, int apartmentId)
         {
-            MeasureId = measureId;
+            MID = measureId;
             PowerUsed = powerUsed;
             PowerGenerated = powerGenerated;
-            CommunityId = communityId;
-            ApartmentId = apartmentId;
+            CID = communityId;
+            AID = apartmentId;
         }
 
         public override string ToString()
         {
-            return $"{nameof(MeasureId)}: {MeasureId}, {nameof(PowerUsed)}: {PowerUsed}, {nameof(PowerGenerated)}: {PowerGenerated}, {nameof(CommunityId)}: {CommunityId}, {nameof(ApartmentId)}: {ApartmentId}";
+            return $"{nameof(MID)}: {MID}, {nameof(PowerUsed)}: {PowerUsed}, {nameof(PowerGenerated)}: {PowerGenerated}, {nameof(CID)}: {CID}, {nameof(AID)}: {AID}";
         }
     }
 }
