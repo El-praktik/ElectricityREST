@@ -14,7 +14,7 @@ namespace ElectricityLibrary.model
         public DbSet<CommunityUsage> CommunityUsages { get; set; }
         public DbSet<ApartUsage> ApartUsages { get; set; }
         public DbSet<BlockUsage> BlockUsages { get; set; }
-        public readonly static string ConnectionString = @"data source=DESKTOP-GQ0A8L0;initial catalog=ElPraktik;trusted_connection=true;Encrypt=False;";
+        public readonly static string ConnectionString = @"data source=BLADE;initial catalog=ElPraktik;trusted_connection=true;Encrypt=False;";
         
         public ELDBContext(DbContextOptions<ELDBContext> options) : base(options) { }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

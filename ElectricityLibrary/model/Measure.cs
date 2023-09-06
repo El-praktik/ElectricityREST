@@ -14,9 +14,9 @@ namespace ElectricityLibrary.model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? MID { get; set; }
         [Required]
-        public double PowerUsed { get; set; }
+        public string PowerUsed { get; set; }
         [Required]
-        public double PowerGenerated { get; set; }
+        public string PowerGenerated { get; set; }
         
        // [ForeignKey("CommunityUsage")] add this later
         public int CID { get; set; }
@@ -28,7 +28,7 @@ namespace ElectricityLibrary.model
             
         }
 
-        public Measure(int? measureId, double powerUsed, double powerGenerated, int communityId, int apartmentId)
+        public Measure(int? measureId, string powerUsed, string powerGenerated, int communityId, int apartmentId)
         {
             MID = measureId;
             PowerUsed = powerUsed;

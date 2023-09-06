@@ -18,7 +18,7 @@ namespace ElectricityLibrary.model
         [Required]
         public DateTime ToTime { get; set; }
         [Required]
-        public double PowerUsed { get; set; }
+        public string PowerUsed { get; set; }
         [Required]
         //[ForeignKey("CommunityUsage")]
         public int CommunityId { get; set; }
