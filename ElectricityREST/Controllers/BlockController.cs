@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ElectricityLibrary.model;
+using ElectricityREST.Managers;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,18 +10,35 @@ namespace ElectricityREST.Controllers
     [ApiController]
     public class BlockController : ControllerBase
     {
+        private BlockManager blockManager;
         // GET: api/<BlockController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<BlockUsage>> GetAllBlocks()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<BlockUsage> blocks = blockManager.GetAllBlocks();
+            if (blocks == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(blocks);
+            }
         }
 
         // GET api/<BlockController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult GetBlockByID(int id)
         {
-            return "value";
+            try
+            {
+                BlockUsage block = blockManager.GetBlockUsageById(id);
+                return Ok(block);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST api/<BlockController>

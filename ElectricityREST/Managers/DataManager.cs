@@ -53,40 +53,9 @@ namespace ElectricityREST.Managers
             return _context.Measure.FirstOrDefault(measure => measure.MID == measureId);
         }
 
-        public IEnumerable<BlockUsage> GetApartmentsInBlock(int blockId,int ApartID)
-        {
-            IEnumerable<BlockUsage> blocks = from blockUsage in _context.BlockUsages
-                                             where(blockUsage.BlockId == blockId && blockUsage.ApartmentId == ApartID)
-                                             select blockUsage;
-            return blocks;
-
-            //List<BlockUsage> blocks = new List<BlockUsage>();
-            //using (SqlConnection conn = new SqlConnection(connectionString))
-            //{
-            //    conn.Open();
-            //    SqlCommand comm = new SqlCommand($"Select BID, AID from BlockUsage where {blockId} = BID ORDER BY BID", conn);
-            //    SqlDataReader reader = comm.ExecuteReader();
-            //    while(reader.Read())
-            //    {
-                   
-            //        int BID = Convert.ToInt32(reader["BID"]);
-
-            //        int AID =Convert.ToInt32(reader["AID"]);
-            //        blocks.Add(new BlockUsage() { BlockId = BID, ApartmentId = AID });
-
-            //    }
-            //}
-            //    return blocks;
-        }
+       
         
-        public IEnumerable<BlockUsage> GetBlockUsageById(int blockId)
-        {
-            IEnumerable<BlockUsage> blocks = from blockUsage in _context.BlockUsages
-                                             where (blockUsage.BlockId == blockId)
-                                             select blockUsage;
-            return blocks;
-                                 
-        }
+       
 
         public IEnumerable<CommunityUsage> GetCommunityUsageById(int communityId)
         {

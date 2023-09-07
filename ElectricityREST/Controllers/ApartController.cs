@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ElectricityLibrary.model;
+using ElectricityREST.Managers;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,12 +10,22 @@ namespace ElectricityREST.Controllers
     [ApiController]
     public class ApartController : ControllerBase
     {
+        private ApartManager _apartManager;
         // GET: api/<ApartController>
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+            public ActionResult<IEnumerable<ApartUsage>> GetAllAparts()
+            {
+                IEnumerable<ApartUsage> aparts = _apartManager.GetAllAparts();
+                if (aparts == null)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return Ok(aparts);
+                }
+            }
+        
 
         // GET api/<ApartController>/5
         [HttpGet("{id}")]

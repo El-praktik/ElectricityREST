@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ElectricityLibrary.model;
+using ElectricityREST.Managers;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,13 +10,21 @@ namespace ElectricityREST.Controllers
     [ApiController]
     public class CommunityController : ControllerBase
     {
+        private CommunityManager communityManager;
         // GET: api/<CommunityController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<CommunityUsage>> GetAllMeasures()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<CommunityUsage> communities = communityManager.GetAllCommunityUsages();
+            if (communities == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(communities);
+            }
         }
-
         // GET api/<CommunityController>/5
         [HttpGet("{id}")]
         public string Get(int id)
