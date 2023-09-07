@@ -1,8 +1,5 @@
 ﻿using ElectricityLibrary.model;
 using ElectricityREST.InterFaces;
-//using ElectricityREST.Services;
-using System.Data.SqlClient;
-using System.Net;
 
 namespace ElectricityREST.Managers
 {
