@@ -33,7 +33,7 @@ namespace ElectricityLibrary.model
             
         }
 
-        public BlockUsage(int? blockId, DateTime fromTime, DateTime toTime, double powerUsed, double powerGenerated, int communityId, int apartmentId)
+        public BlockUsage(int? blockId, DateTime fromTime, DateTime toTime, string powerUsed, string powerGenerated, int communityId, int apartmentId)
         {
             BlockId = blockId;
             FromTime = fromTime;
