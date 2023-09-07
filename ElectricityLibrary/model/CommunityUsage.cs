@@ -27,7 +27,7 @@ namespace ElectricityLibrary.model
             
         }
 
-        public CommunityUsage(int? communityId, DateTime fromTime, DateTime toTime, double powerUsed, double powerGenerated)
+        public CommunityUsage(int? communityId, DateTime fromTime, DateTime toTime, string powerUsed, string powerGenerated)
         {
             CommunityId = communityId;
             FromTime = fromTime;

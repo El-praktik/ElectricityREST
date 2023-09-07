@@ -47,19 +47,5 @@ namespace ElectricityREST.Controllers
                 return NotFound();
             }
         }
-        // GET api/<MeasuresController>/5
-        //[HttpGet("{id:int}")]
-        //public IActionResult GetApartmentsInBlock(int blockId)
-        //{
-        //    try
-        //    {
-        //        List<BlockUsage> _blocks = _dataManager.GetApartmentsInBlock(blockId);
-        //        return Ok(_blocks);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return NotFound();
-        //    }
-        //}
     }
 }

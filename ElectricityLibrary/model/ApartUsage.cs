@@ -31,7 +31,7 @@ namespace ElectricityLibrary.model
             
         }
 
-        public ApartUsage(int? apartmentId, DateTime fromTime, DateTime toTime, double powerUsed, int communityId, int measureId)
+        public ApartUsage(int? apartmentId, DateTime fromTime, DateTime toTime, string powerUsed, int communityId, int measureId)
         {
             ApartmentId = apartmentId;
             FromTime = fromTime;

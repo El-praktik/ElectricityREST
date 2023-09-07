@@ -17,13 +17,5 @@ namespace ElectricityLibrary.model
         public readonly static string ConnectionString = @"data source=DESKTOP-GQ0A8L0;initial catalog=ElPraktik;trusted_connection=true;Encrypt=False;";
         
         public ELDBContext(DbContextOptions<ELDBContext> options) : base(options) { }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"data source=DESKTOP-GQ0A8L0;initial catalog=ElPraktik;trusted_connection=true");
-        //}
-        //protected override void OnModelCreating(ModelBuilder DbBuilder)
-        //{
-            
-        //}
     }
 }
