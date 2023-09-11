@@ -17,6 +17,7 @@ namespace ElectricityLibrary.model
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
+        public string Token { get; set; }
         [Required]
         // [ForeignKey("ApartUsage")]
         public int ApartmentId { get; set; }
