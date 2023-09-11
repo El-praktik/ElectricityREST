@@ -11,13 +11,13 @@ namespace ElectricityREST.Managers
         }
         public IEnumerable<ApartUsage> GetAllAparts()
         {
-            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsages
+            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsage
                                                 select ApartUsage;
             return apartList;
 
 
         }
-        public IEnumerable<ApartUsage> GetApartCurrentMonth()
+        public IEnumerable<ApartUsage> GetApartCurrentMonth(int id)
         {
             DateTime Today = DateTime.Now;
             DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
@@ -25,8 +25,8 @@ namespace ElectricityREST.Managers
             LastDayOfMonth = LastDayOfMonth.AddMonths(1);
             LastDayOfMonth = LastDayOfMonth.AddDays(-1);
 
-            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsages
-                                                where FirstDayOfMonth < ApartUsage.FromTime && ApartUsage.FromTime < LastDayOfMonth
+            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsage
+                                                where FirstDayOfMonth < ApartUsage.FromTime && ApartUsage.FromTime < LastDayOfMonth && ApartUsage.Apartment == id
                                                 select ApartUsage;
 
             return apartList;

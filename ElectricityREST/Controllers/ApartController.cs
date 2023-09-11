@@ -1,4 +1,5 @@
 ﻿using ElectricityLibrary.model;
+using ElectricityREST.InterFaces;
 using ElectricityREST.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,12 @@ namespace ElectricityREST.Controllers
     public class ApartController : ControllerBase
     {
         private ApartManager _apartManager;
+
+        public ApartController(ELDBContext _context)
+        {
+            _apartManager = new ApartManager(_context);
+        }
+
         // GET: api/<ApartController>
         [HttpGet]
             public ActionResult<IEnumerable<ApartUsage>> GetAllAparts()
@@ -29,9 +36,17 @@ namespace ElectricityREST.Controllers
 
         // GET api/<ApartController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<IEnumerable<ApartUsage>> GetCurrentMonth(int id)
         {
-            return "value";
+            IEnumerable<ApartUsage> aparts = _apartManager.GetApartCurrentMonth(id);
+            if (aparts == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(aparts);
+            }
         }
 
         // POST api/<ApartController>
