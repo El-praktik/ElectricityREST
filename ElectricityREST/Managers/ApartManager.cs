@@ -36,7 +36,7 @@ namespace ElectricityREST.Managers
             DateTime Today = DateTime.Now;
             DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
             DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            LastDayOfMonth = FirstDayOfMonth.AddMonths(1);
+            FirstDayOfMonth = FirstDayOfMonth.AddMonths(1);
             LastDayOfMonth = LastDayOfMonth.AddMonths(2);
             LastDayOfMonth = LastDayOfMonth.AddDays(-1);
 
