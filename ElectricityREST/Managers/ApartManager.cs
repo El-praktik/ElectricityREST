@@ -31,5 +31,20 @@ namespace ElectricityREST.Managers
 
             return apartList;
         }
+        public IEnumerable<ApartUsage> GetApartLastMonth(int id)
+        {
+            DateTime Today = DateTime.Now;
+            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
+            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
+            LastDayOfMonth = FirstDayOfMonth.AddMonths(1);
+            LastDayOfMonth = LastDayOfMonth.AddMonths(2);
+            LastDayOfMonth = LastDayOfMonth.AddDays(-1);
+
+            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsage
+                                                where FirstDayOfMonth < ApartUsage.FromTime && ApartUsage.FromTime < LastDayOfMonth && ApartUsage.Apartment == id
+                                                select ApartUsage;
+
+            return apartList;
+        }
     }
 }
