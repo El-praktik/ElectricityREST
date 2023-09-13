@@ -8,6 +8,8 @@ namespace ElectricityREST.InterFaces
         Measure GetMeasureById(int measureId);
         //IEnumerable<BlockUsage> GetBlockUsageById(int blockId);
         IEnumerable<CommunityUsage> GetCommunityUsageById(int communityId);
-
+        IEnumerable<Measure> GetApartCurrentMonth(int id);
+        IEnumerable<Measure> GetApartLastMonth(int id);
+        IEnumerable<Measure> GetBlockCurrentMonth(int id);
     }
 }

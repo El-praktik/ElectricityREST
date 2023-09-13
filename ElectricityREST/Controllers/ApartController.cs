@@ -32,36 +32,6 @@ namespace ElectricityREST.Controllers
                     return Ok(aparts);
                 }
             }
-        
-
-        // GET api/<ApartController>/5
-        [HttpGet("/CurrentMonth/{id}")]
-        public ActionResult<IEnumerable<ApartUsage>> GetCurrentMonth(int id)
-        {
-            IEnumerable<ApartUsage> aparts = _apartManager.GetApartCurrentMonth(id);
-            if (aparts == null)
-            {
-                return NoContent();
-            }
-            else
-            {
-                return Ok(aparts);
-            }
-        }
-        [HttpGet("/LastMonth/{id}")]
-        public ActionResult<IEnumerable<ApartUsage>> GetLastMonth(int id)
-        {
-            IEnumerable<ApartUsage> aparts = _apartManager.GetApartLastMonth(id);
-            if (aparts == null)
-            {
-                return NoContent();
-            }
-            else
-            {
-                return Ok(aparts);
-            }
-        }
-
         // POST api/<ApartController>
         [HttpPost]
         public void Post([FromBody] string value)

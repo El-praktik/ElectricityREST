@@ -14,31 +14,23 @@ namespace ElectricityLibrary.model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? AID { get; set; }
         [Required]
-        public DateTime FromTime { get; set; }
-        [Required]
-        public DateTime ToTime { get; set; }
-        [Required]
-        public string PowerUsed { get; set; }
-        [Required]
-        public int Apartment { get; set; }
+        public int BID { get; set; }
 
         public ApartUsage()
         {
             
         }
 
-        public ApartUsage(int? Id, DateTime fromTime, DateTime toTime, string powerUsed, int apartmentId)
+        public ApartUsage(int? Id, int powerUsedCurrentMonth, int powerUsedLastMonth, int BId)
         {
             AID = Id;
-            FromTime = fromTime;
-            ToTime = toTime;
-            PowerUsed = powerUsed;
-            Apartment = apartmentId;
+            BID = BId;
         }
-
+        /*
         public override string ToString()
         {
             return $"{nameof(AID)}: {AID}, {nameof(FromTime)}: {FromTime}, {nameof(ToTime)}: {ToTime}";
         }
+        */
     }
 }

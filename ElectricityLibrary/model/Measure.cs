@@ -14,13 +14,11 @@ namespace ElectricityLibrary.model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? MID { get; set; }
         [Required]
-        public string PowerUsed { get; set; }
+        public DateTime FromTime { get; set; }
         [Required]
-        public string PowerGenerated { get; set; }
-        
-       // [ForeignKey("CommunityUsage")] add this later
-        public int CID { get; set; }
-        //[ForeignKey("ApartUsage")] add this later
+        public DateTime ToTime { get; set; }
+        [Required]
+        public int PowerUsed { get; set; }
         public int AID { get; set; }
 
         public Measure()
@@ -28,18 +26,19 @@ namespace ElectricityLibrary.model
             
         }
 
-        public Measure(int? measureId, string powerUsed, string powerGenerated, int communityId, int apartmentId)
+        public Measure(int? measureId, DateTime fromTime, DateTime toTime, int powerUsed, string powerGenerated, int apartmentId)
         {
             MID = measureId;
+            FromTime = fromTime;
+            ToTime = toTime;
             PowerUsed = powerUsed;
-            PowerGenerated = powerGenerated;
-            CID = communityId;
             AID = apartmentId;
         }
-
+        /*
         public override string ToString()
         {
             return $"{nameof(MID)}: {MID}, {nameof(PowerUsed)}: {PowerUsed}, {nameof(PowerGenerated)}: {PowerGenerated}, {nameof(CID)}: {CID}, {nameof(AID)}: {AID}";
         }
+        */
     }
 }

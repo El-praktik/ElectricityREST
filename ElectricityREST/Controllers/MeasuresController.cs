@@ -31,6 +31,45 @@ namespace ElectricityREST.Controllers
                 return Ok(measures);
             }
         }
+        [HttpGet("/CurrentMonth/{id}")]
+        public ActionResult<IEnumerable<Measure>> GetCurrentMonth(int id)
+        {
+            IEnumerable<Measure> measures = _dataManager.GetApartCurrentMonth(id);
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
+        [HttpGet("/LastMonth/{id}")]
+        public ActionResult<IEnumerable<Measure>> GetLastMonth(int id)
+        {
+            IEnumerable<Measure> measures = _dataManager.GetApartLastMonth(id);
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
+        [HttpGet("/CurrentMonthBlock/{id}")]
+        public ActionResult<IEnumerable<Measure>> GetLastMonthBlock(int id)
+        {
+            IEnumerable<Measure> measures = _dataManager.GetBlockCurrentMonth(id);
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
 
         // GET api/<MeasuresController>/5
         [HttpGet("{id:int}")]
