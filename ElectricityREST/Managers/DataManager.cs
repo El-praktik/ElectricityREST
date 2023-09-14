@@ -35,5 +35,10 @@ namespace ElectricityREST.Managers
                                                     select communityUsage;
             return community;
         }
+
+        public IEnumerable<BlockUsage> GetBlockUsageById(int blockId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace ElectricityLibrary.model
         [Required]
         // [ForeignKey("CommunityUsage")]
         public int CommunityId { get; set; }
+       
 
         public Users()
         {

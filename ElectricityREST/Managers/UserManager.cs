@@ -1,5 +1,6 @@
 ﻿using ElectricityLibrary.model;
 using ElectricityREST.JWTKeySecret;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -7,8 +8,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+
 namespace ElectricityREST.Managers
 {
+    
     public class UserManager
     {
         private ELDBContext _context;
