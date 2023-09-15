@@ -58,7 +58,7 @@ namespace ElectricityREST.Controllers
             }
         }
         [HttpGet("/CurrentMonthBlock/{id}")]
-        public ActionResult<IEnumerable<Measure>> GetLastMonthBlock(int id)
+        public ActionResult<IEnumerable<Measure>> GetCurrentMonthBlock(int id)
         {
             IEnumerable<Measure> measures = _dataManager.GetBlockCurrentMonth(id);
             if (measures == null)
@@ -70,20 +70,43 @@ namespace ElectricityREST.Controllers
                 return Ok(measures);
             }
         }
-
-        // GET api/<MeasuresController>/5
-        [HttpGet("{id:int}")]
-        public IActionResult GetMeasureById(int measureId)
+        [HttpGet("/LastMonthBlock/{id}")]
+        public ActionResult<IEnumerable<Measure>> GetLastMonthBlock(int id)
         {
-            try
+            IEnumerable<Measure> measures = _dataManager.GetBlockLastMonth(id);
+            if (measures == null)
             {
-                Measure measure = _dataManager.GetMeasureById(measureId);
-                return Ok(measure);
+                return NoContent();
             }
-            catch (Exception)
+            else
             {
-
-                return NotFound();
+                return Ok(measures);
+            }
+        }
+        [HttpGet("/AllCurrent")]
+        public ActionResult<IEnumerable<Measure>> GetAllCurrent()
+        {
+            IEnumerable<Measure> measures = _dataManager.GetAllCurrentMonth();
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
+        [HttpGet("/AllLast")]
+        public ActionResult<IEnumerable<Measure>> GetAllLast()
+        {
+            IEnumerable<Measure> measures = _dataManager.GetAllLastMonth();
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
             }
         }
     }
