@@ -21,9 +21,18 @@ namespace ElectricityREST.Managers
             _context = context;
             _settings = options.Value;
         }
+        public UserManager(IOptions<AppSettings> options)
+        {
+            _settings= options.Value;
+        }
+        public UserManager(ELDBContext context)
+        { 
+            _context = context;
+        }
+       
         public Users AuthenticateRegularUser(string UsernName, string Password)
         {
-            var user = _context.Users.FirstOrDefault(x => x.UserName == UsernName &&  x.Password == Password);
+            var user = _context.Users.SingleOrDefault(x => x.UserName == UsernName &&  x.Password == Password);
             if (user == null)
             {
                 return null;

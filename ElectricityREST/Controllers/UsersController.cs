@@ -10,6 +10,11 @@ namespace ElectricityREST.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private UserManager _userManager;
+        public UsersController(ELDBContext context)
+        {
+            _userManager = new UserManager(context);
+        }
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<string> Get()

@@ -15,8 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-var key = Encoding.ASCII.GetBytes(new AppSettings().Secret);
+builder.Services.AddMvc();
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+builder.Services.Configure<AppSettings>(appSettingsSection);
+var appSettings = appSettingsSection.Get<AppSettings>();
+
+//builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,8 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<jwtmiddleware>();
 app.UseAuthorization();
+app.UseMvc();
 
 app.MapControllers();
 
