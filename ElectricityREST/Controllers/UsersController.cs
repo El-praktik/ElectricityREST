@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ElectricityLibrary.model;
+using ElectricityREST.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,9 +32,13 @@ namespace ElectricityREST.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [AllowAnonymous]
+        [HttpPost("authenticateUser")]
+        public ActionResult Authentication([FromBody] Users parameter)
         {
+            var user = _userManager.AuthenticateRegularUser(parameter.UserName, parameter.Password);
+            if(user == null) { return BadRequest(new {message = "Wrong parameters, please try again"}); }
+            return Ok(user);
         }
 
         // PUT api/<UsersController>/5
