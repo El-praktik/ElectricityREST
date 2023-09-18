@@ -34,9 +34,9 @@ namespace ElectricityREST.Controllers
         // POST api/<UsersController>
         [AllowAnonymous]
         [HttpPost("authenticateUser")]
-        public ActionResult Authentication([FromBody] Users parameter)
+        public ActionResult Authentication(AuthenticateRequest model)
         {
-            var user = _userManager.AuthenticateRegularUser(parameter.UserName, parameter.Password);
+            var user = _userManager.Authenticate(model);
             if(user == null) { return BadRequest(new {message = "Wrong parameters, please try again"}); }
             return Ok(user);
         }

@@ -28,7 +28,7 @@ namespace ElectricityREST.Controllers
 
         // GET api/<BlockController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType()]
+        
         public ActionResult GetBlockByID(int id)
         {
             try
