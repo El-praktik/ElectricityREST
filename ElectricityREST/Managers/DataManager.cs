@@ -170,6 +170,7 @@ namespace ElectricityREST.Managers
                 }
                 FirstDayOfMonth = FirstDayOfMonth.AddHours(1);
             }
+            Console.ReadKey();
             return payment;
         }
     }
