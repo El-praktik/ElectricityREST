@@ -109,5 +109,18 @@ namespace ElectricityREST.Controllers
                 return Ok(measures);
             }
         }
+        [HttpGet("/CurrentPrize/{id}")]
+        public IActionResult GetCurrentPrize(double id)
+        {
+            double measures = _dataManager.GetPrizeCurrentMonth(id);
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
     }
 }

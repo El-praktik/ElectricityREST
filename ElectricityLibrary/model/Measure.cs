@@ -16,7 +16,7 @@ namespace ElectricityLibrary.model
         [Required]
         public DateTime FromTime { get; set; }
         [Required]
-        public int PowerUsed { get; set; }
+        public double PowerUsed { get; set; }
         public int AID { get; set; }
 
         public Measure()
@@ -24,7 +24,7 @@ namespace ElectricityLibrary.model
             
         }
 
-        public Measure(int? measureId, DateTime fromTime, int powerUsed, string powerGenerated, int apartmentId)
+        public Measure(int? measureId, DateTime fromTime, double powerUsed, int apartmentId)
         {
             MID = measureId;
             FromTime = fromTime;

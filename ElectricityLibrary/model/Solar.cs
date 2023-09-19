@@ -16,7 +16,7 @@ namespace ElectricityLibrary.model
         [Required]
         public DateTime FromTime { get; set; }
         [Required]
-        public int PowerGenerated { get; set; }
+        public double PowerGenerated { get; set; }
         public int BID { get; set; }
 
         public Solar()
@@ -24,7 +24,7 @@ namespace ElectricityLibrary.model
 
         }
 
-        public Solar(int? solarId, DateTime fromTime, int powerGenerated, int blockId)
+        public Solar(int? solarId, DateTime fromTime, double powerGenerated, int blockId)
         {
             SID = solarId;
             FromTime = fromTime;

@@ -1,4 +1,5 @@
 ﻿using ElectricityLibrary.model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricityREST.InterFaces
 {
@@ -13,5 +14,6 @@ namespace ElectricityREST.InterFaces
         IEnumerable<Measure> GetApartLastMonth(int id);
         IEnumerable<Measure> GetBlockCurrentMonth(int id);
         IEnumerable<Measure> GetBlockLastMonth(int id);
+        double GetPrizeCurrentMonth(double id);
     }
 }
