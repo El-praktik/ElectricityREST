@@ -1,5 +1,7 @@
 ﻿using ElectricityLibrary.model;
 using ElectricityREST.InterFaces;
+using Microsoft.AspNetCore.Hosting.Server;
+using System.Linq;
 
 namespace ElectricityREST.Managers
 {
@@ -128,91 +130,45 @@ namespace ElectricityREST.Managers
             IEnumerable<Solar> solars = from Solar in _context.Solar
                                         where FirstDayOfMonth < Solar.FromTime && Solar.FromTime <= LastDayOfMonth
                                         select Solar;
-            Console.WriteLine(measures.Count<Measure>());
-            List<Measure> tempMeasures = new List<Measure>();
 
-            DateTime time = FirstDayOfMonth.AddHours(1);
-            Console.WriteLine(time);
+            List<Measure> MeasureList = (List<Measure>)solars;
+            List<Solar> SolarList = (List<Solar>)solars;
+
             double payment = 0;
-            bool last = false;
-            Measure temp1 = measures.Last<Measure>();
-            while (true)
+
+            for (int i = 0; i < LastDayOfMonth.Day*24; i++)
             {
-                foreach (Measure measure in measures)
-                {
-                    if (measure == temp1)
-                    {
-                        last = true;
-                    }
-                    if (measure.FromTime == time) //ok
-                    {
-                        Console.WriteLine("HELLO");
-                        tempMeasures.Add(measure);
-                    }
-                    else if (measure.FromTime >= time)
-                    {
-                        break;
-                    }
-                }
-                double generated = 0;
-                foreach (Solar solar in solars)
-                {
-                    if (solar.FromTime == time)
-                    {
-                        generated += solar.PowerGenerated;
-                    }
-                    else if (solar.FromTime >= time) { }
-                    {
-                        break;
-                    }
-                }
-                double generatedPer = generated/tempMeasures.Count;
-                Measure removal = new Measure();
+                Console.WriteLine(i);
+                List<Measure> MeasureHour = new List<Measure>(MeasureList.FindAll(m => m.FromTime == FirstDayOfMonth));
+                //List<Solar> SolarHour = new List<Solar>(SolarList.FindAll(s => s.FromTime == FirstDayOfMonth));
+                double totalSolarForHour = SolarList.FindAll(s => s.FromTime == FirstDayOfMonth).Sum(item => item.PowerGenerated);
+                double generatedPer = totalSolarForHour/MeasureHour.Count;
 
-                //see how much {id} needs to pay for said hour
+                Console.WriteLine(MeasureHour.Count);
+                Console.WriteLine(generatedPer);
 
-                bool done = false;
-                bool less = false;
-                double lessUsed = 0;
-
-                while (!done)
+                while (true)
                 {
-                    Measure temp2 = tempMeasures.Last<Measure>();
-                    foreach (Measure measure in tempMeasures)
+                    if (MeasureHour.Any(mh => mh.PowerUsed < generatedPer && mh.AID != id))
                     {
-                        if (measure.PowerUsed < generatedPer)
+                        MeasureHour = MeasureHour.Where(mh => mh.PowerUsed < generatedPer && mh.AID != id).ToList();
+                        generatedPer = totalSolarForHour / MeasureHour.Count;
+
+                        Console.WriteLine(MeasureHour.Count);
+                    }
+                    else
+                    {
+                        if (MeasureHour.Any(mh => mh.PowerUsed < generatedPer))
                         {
-                            if (measure.AID == id || measure == temp2)
-                            {
-                                lessUsed = measure.PowerUsed;
-                                less = true;
-                                done = true;
-                                break;
-                            }
-                            else
-                            {
-                                removal = measure;
-                                break;
-                            }
+                            break;
+                        }
+                        else
+                        {
+                            payment += generatedPer;
                         }
                     }
-                    tempMeasures.Remove(removal);
-                    generatedPer = generated / tempMeasures.Count;
                 }
-                if (less)
-                {
-                    payment += lessUsed;
-                }
-                else
-                {
-                    payment += generatedPer;
-
-                }
-                if (last)
-                {
-                    break;
-                }
-                time.AddHours(1);
+                FirstDayOfMonth = FirstDayOfMonth.AddHours(1);
             }
             return payment;
         }
