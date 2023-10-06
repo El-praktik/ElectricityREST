@@ -37,10 +37,9 @@ namespace ElectricityREST.Managers
         public IEnumerable<Measure> GetApartLastMonth(int id)
         {
             DateTime Today = DateTime.Now;
-            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            FirstDayOfMonth = FirstDayOfMonth.AddMonths(1);
-            LastDayOfMonth = LastDayOfMonth.AddMonths(2);
+            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1).AddMonths(-1);
+            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1).AddMonths(-1);
+            LastDayOfMonth = LastDayOfMonth.AddMonths(1);
             LastDayOfMonth = LastDayOfMonth.AddHours(-1);
 
             IEnumerable<Measure> measures = from Measure in _context.Measure
@@ -70,10 +69,9 @@ namespace ElectricityREST.Managers
         public IEnumerable<Measure> GetBlockLastMonth(int id)
         {
             DateTime Today = DateTime.Now;
-            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            FirstDayOfMonth = FirstDayOfMonth.AddMonths(1);
-            LastDayOfMonth = LastDayOfMonth.AddMonths(2);
+            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1).AddMonths(-1);
+            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1).AddMonths(-1);
+            LastDayOfMonth = LastDayOfMonth.AddMonths(1);
             LastDayOfMonth = LastDayOfMonth.AddHours(-1);
 
             IEnumerable<int?> Apartments = from ApartUsage in _context.ApartUsage
@@ -103,10 +101,9 @@ namespace ElectricityREST.Managers
         public IEnumerable<Measure> GetAllLastMonth()
         {
             DateTime Today = DateTime.Now;
-            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1);
-            FirstDayOfMonth = FirstDayOfMonth.AddMonths(1);
-            LastDayOfMonth = LastDayOfMonth.AddMonths(2);
+            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1).AddMonths(-1);
+            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1).AddMonths(-1);
+            LastDayOfMonth = LastDayOfMonth.AddMonths(1);
             LastDayOfMonth = LastDayOfMonth.AddHours(-1);
 
             IEnumerable<Measure> measures = from Measure in _context.Measure
@@ -115,37 +112,46 @@ namespace ElectricityREST.Managers
 
             return measures;
         }
-        public double GetPrizeCurrentMonth(double id)
+        public double GetPrizeCurrentMonth(double id, int monthDiff=0)
         {
             DateTime Today = DateTime.Now;
-            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1, 0, 0, 0);
-            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1, 0, 0, 0);
+            DateTime FirstDayOfMonth = new DateTime(Today.Year, Today.Month, 1, 0, 0, 0).AddMonths(monthDiff);
+            DateTime LastDayOfMonth = new DateTime(Today.Year, Today.Month, 1, 0, 0, 0).AddMonths(monthDiff);
             LastDayOfMonth = LastDayOfMonth.AddMonths(1);
             LastDayOfMonth = LastDayOfMonth.AddHours(-1);
 
             IEnumerable<Measure> measures = from Measure in _context.Measure
-                                            where FirstDayOfMonth < Measure.FromTime && Measure.FromTime <= LastDayOfMonth
+                                            where FirstDayOfMonth <= Measure.FromTime && Measure.FromTime <= LastDayOfMonth
                                             select Measure;
 
             IEnumerable<Solar> solars = from Solar in _context.Solar
-                                        where FirstDayOfMonth < Solar.FromTime && Solar.FromTime <= LastDayOfMonth
+                                        where FirstDayOfMonth <= Solar.FromTime && Solar.FromTime <= LastDayOfMonth
                                         select Solar;
 
-            List<Measure> MeasureList = (List<Measure>)solars;
-            List<Solar> SolarList = (List<Solar>)solars;
+            List<Measure> MeasureList = measures.ToList();
+            List<Solar> SolarList = solars.ToList();
+
+            //Console.WriteLine(FirstDayOfMonth+" & "+MeasureList[0].FromTime);
 
             double payment = 0;
+            double generatedPer;
 
             for (int i = 0; i < LastDayOfMonth.Day*24; i++)
             {
-                Console.WriteLine(i);
-                List<Measure> MeasureHour = new List<Measure>(MeasureList.FindAll(m => m.FromTime == FirstDayOfMonth));
-                //List<Solar> SolarHour = new List<Solar>(SolarList.FindAll(s => s.FromTime == FirstDayOfMonth));
-                double totalSolarForHour = SolarList.FindAll(s => s.FromTime == FirstDayOfMonth).Sum(item => item.PowerGenerated);
-                double generatedPer = totalSolarForHour/MeasureHour.Count;
+                Console.WriteLine("loop: "+i+1);
 
-                Console.WriteLine(MeasureHour.Count);
-                Console.WriteLine(generatedPer);
+                List<Measure> MeasureHour = new List<Measure>(MeasureList.FindAll(m => m.FromTime == FirstDayOfMonth));
+                double totalSolarForHour = SolarList.FindAll(s => s.FromTime == FirstDayOfMonth).Sum(item => item.PowerGenerated);
+                if (totalSolarForHour !> 0)
+                {
+                    generatedPer = totalSolarForHour / MeasureHour.Count;
+                }
+                else
+                {
+                    generatedPer = 0;
+                }
+
+                Console.WriteLine("price per apartment: "+generatedPer);
 
                 while (true)
                 {
@@ -164,14 +170,16 @@ namespace ElectricityREST.Managers
                         }
                         else
                         {
-                            payment += generatedPer;
+                            Measure temp = (Measure)MeasureHour.Find(mh => mh.AID == id);
+                            //Console.WriteLine(temp.PowerUsed);
+                            payment += temp.PowerUsed - generatedPer;
+                            break;
                         }
                     }
                 }
                 FirstDayOfMonth = FirstDayOfMonth.AddHours(1);
             }
-            Console.ReadKey();
-            return payment;
+            return payment*3.6; //3.6 for average kWh price
         }
     }
 }

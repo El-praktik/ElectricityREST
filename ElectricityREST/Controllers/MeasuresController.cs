@@ -32,29 +32,39 @@ namespace ElectricityREST.Controllers
             }
         }
         [HttpGet("/CurrentMonth/{id}")]
-        public ActionResult<IEnumerable<Measure>> GetCurrentMonth(int id)
+        public IActionResult GetCurrentMonth(int id)
         {
             IEnumerable<Measure> measures = _dataManager.GetApartCurrentMonth(id);
+            double sum = 0;
+            foreach(Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
             if (measures == null)
             {
                 return NoContent();
             }
             else
             {
-                return Ok(measures);
+                return Ok(sum);
             }
         }
         [HttpGet("/LastMonth/{id}")]
-        public ActionResult<IEnumerable<Measure>> GetLastMonth(int id)
+        public IActionResult GetLastMonth(int id)
         {
             IEnumerable<Measure> measures = _dataManager.GetApartLastMonth(id);
+            double sum = 0;
+            foreach (Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
             if (measures == null)
             {
                 return NoContent();
             }
             else
             {
-                return Ok(measures);
+                return Ok(sum);
             }
         }
         [HttpGet("/CurrentMonthBlock/{id}")]
@@ -71,16 +81,21 @@ namespace ElectricityREST.Controllers
             }
         }
         [HttpGet("/LastMonthBlock/{id}")]
-        public ActionResult<IEnumerable<Measure>> GetLastMonthBlock(int id)
+        public IActionResult GetLastMonthBlock(int id)
         {
             IEnumerable<Measure> measures = _dataManager.GetBlockLastMonth(id);
+            double sum = 0;
+            foreach (Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
             if (measures == null)
             {
                 return NoContent();
             }
             else
             {
-                return Ok(measures);
+                return Ok(sum);
             }
         }
         [HttpGet("/AllCurrent")]
@@ -97,22 +112,27 @@ namespace ElectricityREST.Controllers
             }
         }
         [HttpGet("/AllLast")]
-        public ActionResult<IEnumerable<Measure>> GetAllLast()
+        public IActionResult GetAllLast()
         {
             IEnumerable<Measure> measures = _dataManager.GetAllLastMonth();
+            double sum = 0;
+            foreach (Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
             if (measures == null)
             {
                 return NoContent();
             }
             else
             {
-                return Ok(measures);
+                return Ok(sum);
             }
         }
-        [HttpGet("/CurrentPrize/{id}")]
-        public IActionResult GetCurrentPrize(double id)
+        [HttpGet("/CurrentPrize/{id}&&{monthDiff}")]
+        public IActionResult GetCurrentPrize(double id, int monthDiff)
         {
-            double measures = _dataManager.GetPrizeCurrentMonth(id);
+            double measures = _dataManager.GetPrizeCurrentMonth(id, monthDiff);
             if (measures == null)
             {
                 return NoContent();

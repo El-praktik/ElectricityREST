@@ -14,6 +14,6 @@ namespace ElectricityREST.InterFaces
         IEnumerable<Measure> GetApartLastMonth(int id);
         IEnumerable<Measure> GetBlockCurrentMonth(int id);
         IEnumerable<Measure> GetBlockLastMonth(int id);
-        double GetPrizeCurrentMonth(double id);
+        double GetPrizeCurrentMonth(double id, int monthDiff = 0);
     }
 }
