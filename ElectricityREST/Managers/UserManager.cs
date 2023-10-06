@@ -18,7 +18,7 @@ namespace ElectricityREST.Managers
             _context = context;
             _settings = options.Value;
         }
-        public Users AuthenticateRegularUser(string UsernName, string Password)
+        /*public Users AuthenticateRegularUser(string UsernName, string Password)
         {
             var user = _context.Users.FirstOrDefault(x => x.UserName == UsernName &&  x.Password == Password);
             if (user == null)
@@ -61,6 +61,6 @@ namespace ElectricityREST.Managers
                 return user;
             }
             return user;
-        } 
+        } */
     }
 }

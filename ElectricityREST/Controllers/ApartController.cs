@@ -1,4 +1,5 @@
 ﻿using ElectricityLibrary.model;
+using ElectricityREST.InterFaces;
 using ElectricityREST.Managers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,12 @@ namespace ElectricityREST.Controllers
     public class ApartController : ControllerBase
     {
         private ApartManager _apartManager;
+
+        public ApartController(ELDBContext _context)
+        {
+            _apartManager = new ApartManager(_context);
+        }
+
         // GET: api/<ApartController>
         [HttpGet]
             public ActionResult<IEnumerable<ApartUsage>> GetAllAparts()
@@ -25,15 +32,6 @@ namespace ElectricityREST.Controllers
                     return Ok(aparts);
                 }
             }
-        
-
-        // GET api/<ApartController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<ApartController>
         [HttpPost]
         public void Post([FromBody] string value)

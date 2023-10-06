@@ -8,28 +8,28 @@ using System.Threading.Tasks;
 
 namespace ElectricityLibrary.model
 {
-    public class Measure
+    public class Solar
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? MID { get; set; }
+        public int? SID { get; set; }
         [Required]
         public DateTime FromTime { get; set; }
         [Required]
-        public double PowerUsed { get; set; }
-        public int AID { get; set; }
+        public double PowerGenerated { get; set; }
+        public int BID { get; set; }
 
-        public Measure()
+        public Solar()
         {
-            
+
         }
 
-        public Measure(int? measureId, DateTime fromTime, double powerUsed, int apartmentId)
+        public Solar(int? solarId, DateTime fromTime, double powerGenerated, int blockId)
         {
-            MID = measureId;
+            SID = solarId;
             FromTime = fromTime;
-            PowerUsed = powerUsed;
-            AID = apartmentId;
+            PowerGenerated = powerGenerated;
+            BID = blockId;
         }
         /*
         public override string ToString()

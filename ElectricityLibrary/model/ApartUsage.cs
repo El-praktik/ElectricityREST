@@ -12,38 +12,25 @@ namespace ElectricityLibrary.model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? ApartmentId { get; set; }
+        public int? AID { get; set; }
         [Required]
-        public DateTime FromTime { get; set; }
-        [Required]
-        public DateTime ToTime { get; set; }
-        [Required]
-        public string PowerUsed { get; set; }
-        [Required]
-        //[ForeignKey("CommunityUsage")]
-        public int CommunityId { get; set; }
-        [Required]
-        //[ForeignKey("Measure")]
-        public int MeasureId { get; set; }
+        public int BID { get; set; }
 
         public ApartUsage()
         {
             
         }
 
-        public ApartUsage(int? apartmentId, DateTime fromTime, DateTime toTime, string powerUsed, int communityId, int measureId)
+        public ApartUsage(int? Id, int powerUsedCurrentMonth, int powerUsedLastMonth, int BId)
         {
-            ApartmentId = apartmentId;
-            FromTime = fromTime;
-            ToTime = toTime;
-            PowerUsed = powerUsed;
-            CommunityId = communityId;
-            MeasureId = measureId;
+            AID = Id;
+            BID = BId;
         }
-
+        /*
         public override string ToString()
         {
-            return $"{nameof(ApartmentId)}: {ApartmentId}, {nameof(FromTime)}: {FromTime}, {nameof(ToTime)}: {ToTime}, {nameof(PowerUsed)}: {PowerUsed}, {nameof(CommunityId)}: {CommunityId}, {nameof(MeasureId)}: {MeasureId}";
+            return $"{nameof(AID)}: {AID}, {nameof(FromTime)}: {FromTime}, {nameof(ToTime)}: {ToTime}";
         }
+        */
     }
 }

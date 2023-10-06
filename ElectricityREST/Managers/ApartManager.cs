@@ -11,7 +11,7 @@ namespace ElectricityREST.Managers
         }
         public IEnumerable<ApartUsage> GetAllAparts()
         {
-            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsages
+            IEnumerable<ApartUsage> apartList = from ApartUsage in _context.ApartUsage
                                                 select ApartUsage;
             return apartList;
 

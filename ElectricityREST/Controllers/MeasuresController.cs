@@ -31,20 +31,115 @@ namespace ElectricityREST.Controllers
                 return Ok(measures);
             }
         }
-
-        // GET api/<MeasuresController>/5
-        [HttpGet("{id:int}")]
-        public IActionResult GetMeasureById(int measureId)
+        [HttpGet("/CurrentMonth/{id}")]
+        public IActionResult GetCurrentMonth(int id)
         {
-            try
+            IEnumerable<Measure> measures = _dataManager.GetApartCurrentMonth(id);
+            double sum = 0;
+            foreach(Measure measure in measures)
             {
-                Measure measure = _dataManager.GetMeasureById(measureId);
-                return Ok(measure);
+                sum += measure.PowerUsed;
             }
-            catch (Exception)
+            if (measures == null)
             {
-
-                return NotFound();
+                return NoContent();
+            }
+            else
+            {
+                return Ok(sum);
+            }
+        }
+        [HttpGet("/LastMonth/{id}")]
+        public IActionResult GetLastMonth(int id)
+        {
+            IEnumerable<Measure> measures = _dataManager.GetApartLastMonth(id);
+            double sum = 0;
+            foreach (Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(sum);
+            }
+        }
+        [HttpGet("/CurrentMonthBlock/{id}")]
+        public ActionResult<IEnumerable<Measure>> GetCurrentMonthBlock(int id)
+        {
+            IEnumerable<Measure> measures = _dataManager.GetBlockCurrentMonth(id);
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
+        [HttpGet("/LastMonthBlock/{id}")]
+        public IActionResult GetLastMonthBlock(int id)
+        {
+            IEnumerable<Measure> measures = _dataManager.GetBlockLastMonth(id);
+            double sum = 0;
+            foreach (Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(sum);
+            }
+        }
+        [HttpGet("/AllCurrent")]
+        public ActionResult<IEnumerable<Measure>> GetAllCurrent()
+        {
+            IEnumerable<Measure> measures = _dataManager.GetAllCurrentMonth();
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
+            }
+        }
+        [HttpGet("/AllLast")]
+        public IActionResult GetAllLast()
+        {
+            IEnumerable<Measure> measures = _dataManager.GetAllLastMonth();
+            double sum = 0;
+            foreach (Measure measure in measures)
+            {
+                sum += measure.PowerUsed;
+            }
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(sum);
+            }
+        }
+        [HttpGet("/CurrentPrize/{id}&&{monthDiff}")]
+        public IActionResult GetCurrentPrize(double id, int monthDiff)
+        {
+            double measures = _dataManager.GetPrizeCurrentMonth(id, monthDiff);
+            if (measures == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(measures);
             }
         }
     }
